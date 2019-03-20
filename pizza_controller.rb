@@ -14,6 +14,11 @@ get '/pizza-orders/new' do #new
   erb ( :new )
 end
 
+get '/pizza-orders/:id/edit' do #edit
+  @order = PizzaOrder.find(params[:id])
+  erb ( :edit )
+end
+
 get '/pizza-orders/:id' do #show
   @order = PizzaOrder.find(params[:id])
   erb ( :show )
@@ -25,7 +30,13 @@ post '/pizza-orders' do #create
   erb ( :create )
 end
 
-post '/pizza-orders/:id/delete' do #destroyy
+post '/pizza-orders/:id' do
+  @order = PizzaOrder.new(params)
+  @order.update
+  redirect '/pizza-orders'
+end
+
+post '/pizza-orders/:id/delete' do #destroy
   order = PizzaOrder.find(params[:id])
   order.delete
   redirect '/pizza-orders'
